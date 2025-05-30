@@ -17,7 +17,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-
 import java.util.List;
 
 import static com.cas.sur.tout.urgents.utils.Constants.*;
@@ -29,16 +28,22 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
-    private static final String[] WHITE_LIST_URL = {
-            INCIDENT_ENDPOINT + "/**",
-            CLIENT_ENDPOINT + "/**",
-            DEGREE_ENDPOINT + "/**",
+    private static final String[] ADMIN_LIST_URL = {
+            DEGREE_ENDPOINT + "/add",
+            DEGREE_ENDPOINT + "/find/**",
+            DEGREE_ENDPOINT + "/isActive/**",
             GESTIONNAIRE_ENDPOINT + "/**",
             ORGANISME_EXTERIEUR_ENDPOINT + "/**",
-            ZONE_ENDPOINT + "/**",
             ROLE_ENDPOINT + "/**",
             TYPE_CAS_ENDPOINT + "/**",
             USER_ENDPOINT + "/**"
+    };
+    private static final String[] USER_LIST_URL = {
+            INCIDENT_ENDPOINT + "/**",
+            CLIENT_ENDPOINT + "/**",
+            DEGREE_ENDPOINT + "/all",
+            ZONE_ENDPOINT + "/**",
+            TYPE_CAS_ENDPOINT + "/all",
     };
     @Autowired
     private ApplicationUserDetailsService userDetailsService;
@@ -65,6 +70,8 @@ public class SecurityConfiguration {
                         exceptionHandling.authenticationEntryPoint(unauthorizedHandler)
                 )
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(ADMIN_LIST_URL).hasRole("ADMIN")
+                        .requestMatchers(USER_LIST_URL).hasAnyRole("USER", "ADMIN")
                         .requestMatchers(
                                 AUTH_ENDPOINT + "/**",
                                 IMAGE_ENDPOINT + "/**",
