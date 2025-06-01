@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -40,6 +39,7 @@ public class ApplicationUserDetailsService implements UserDetailsService {
             GestionnaireDto user = service.findUserByEmail(username);
             return new ApplicationUserDetails(
                     user.getId(),
+                    user.getUsername(),
                     user.getEmail(),
                     user.getPassword(),
                     user.getRoles().stream()
@@ -54,6 +54,7 @@ public class ApplicationUserDetailsService implements UserDetailsService {
             ClientDto client = clientService.findClientByTel(username);
             return new ApplicationUserDetails(
                     client.getId(),
+                    client.getUsername(),
                     client.getTel(),
                     client.getPassword(),
                     client.getRoles().stream()

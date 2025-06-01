@@ -2,6 +2,7 @@ package com.cas.sur.tout.urgents.controller.auth;
 
 import com.cas.sur.tout.urgents.dto.auth.AuthenticationRequest;
 import com.cas.sur.tout.urgents.dto.auth.AuthenticationResponse;
+import com.cas.sur.tout.urgents.dto.auth.UserInfo;
 import com.cas.sur.tout.urgents.service.auth.ApplicationUserDetails;
 import com.cas.sur.tout.urgents.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,19 @@ public class AuthController {
             final ApplicationUserDetails userDetails = (ApplicationUserDetails) authentication.getPrincipal();
 
             final String jwt = jwtUtils.generateToken(userDetails);
-            return ResponseEntity.ok(AuthenticationResponse.builder().accessToken(jwt).build());
+
+            UserInfo userInfo = UserInfo.builder()
+                    .id(userDetails.getId())
+                    .username(userDetails.getUsername())
+                    .emailOrTel(userDetails.getEmailOrtTel())
+                    .role(userDetails.getAuthorities())
+                    .build();
+
+            return ResponseEntity.ok(AuthenticationResponse.builder()
+                    .accessToken(jwt)
+                    .userInfo(userInfo)
+                    .build()
+            );
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
                     "message", "Les identifications sont erronées",

@@ -35,7 +35,9 @@ public class SecurityConfiguration {
             GESTIONNAIRE_ENDPOINT + "/**",
             ORGANISME_EXTERIEUR_ENDPOINT + "/**",
             ROLE_ENDPOINT + "/**",
-            TYPE_CAS_ENDPOINT + "/**",
+            TYPE_CAS_ENDPOINT + "/add",
+            TYPE_CAS_ENDPOINT + "/find/**",
+            TYPE_CAS_ENDPOINT + "/isActive/**",
             USER_ENDPOINT + "/**"
     };
     private static final String[] USER_LIST_URL = {
@@ -71,7 +73,7 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(ADMIN_LIST_URL).hasRole("ADMIN")
-                        .requestMatchers(USER_LIST_URL).hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(USER_LIST_URL).hasAnyRole("USER", "ADMIN", "RESPONSABLE")
                         .requestMatchers(
                                 AUTH_ENDPOINT + "/**",
                                 IMAGE_ENDPOINT + "/**",
