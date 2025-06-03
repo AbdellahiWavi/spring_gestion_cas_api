@@ -1,23 +1,24 @@
 package com.cas.sur.tout.urgents.service.impl;
 
 import com.cas.sur.tout.urgents.config.EncoderConfig;
-import com.cas.sur.tout.urgents.dto.DegreeDto;
 import com.cas.sur.tout.urgents.dto.GestionnaireDto;
+import com.cas.sur.tout.urgents.dto.RoleDto;
 import com.cas.sur.tout.urgents.exception.EntityNotFoundException;
 import com.cas.sur.tout.urgents.exception.ErrorCodes;
 import com.cas.sur.tout.urgents.exception.InvalidEntityException;
-import com.cas.sur.tout.urgents.model.Degree;
 import com.cas.sur.tout.urgents.model.Gestionnaire;
+import com.cas.sur.tout.urgents.model.Role;
 import com.cas.sur.tout.urgents.repository.GestionnaireRepo;
+import com.cas.sur.tout.urgents.repository.RoleRepo;
 import com.cas.sur.tout.urgents.service.GestionnaireService;
 import com.cas.sur.tout.urgents.validator.UserValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,13 +27,15 @@ import java.util.stream.Collectors;
 public class GestionnaireServiceImpl implements GestionnaireService {
 
     private final GestionnaireRepo gestionnaireRepo;
+    private final RoleRepo roleRepo;
 
     @Autowired
     private EncoderConfig encoder;
 
     @Autowired
-    public GestionnaireServiceImpl(GestionnaireRepo gestionnaireRepo) {
+    public GestionnaireServiceImpl(GestionnaireRepo gestionnaireRepo, RoleRepo roleRepo) {
         this.gestionnaireRepo = gestionnaireRepo;
+        this.roleRepo = roleRepo;
     }
 
     @Override
@@ -46,12 +49,24 @@ public class GestionnaireServiceImpl implements GestionnaireService {
                     errors
             );
         }
+        dto.setActive(true);
+
+        if (dto.getRoles() == null || dto.getRoles().isEmpty()) {
+            Optional<RoleDto> roleprofileDto = Optional.ofNullable(RoleDto.fromEntity(roleRepo.findByRoleProfile("ADMIN", "TOUTES")));
+
+            dto.setRoles(roleprofileDto.map(List::of)
+                    .orElseGet(() -> List.of(RoleDto.fromEntity(
+                                    roleRepo.save(Role.builder().role("ADMIN").profile("TOUTES").build())
+                            ))
+                    )
+            );
+        }
+
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
             dto.setPassword(encoder.passwordEncoder().encode(dto.getPassword()));
         } else {
             log.warn("Mot de passe vide ou null pour le gestionnaire : {}", dto.getEmail());
         }
-        dto.setActive(true);
 
         return GestionnaireDto.fromEntity(
                 gestionnaireRepo.save(

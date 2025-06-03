@@ -4,6 +4,7 @@ import com.cas.sur.tout.urgents.dto.auth.AuthenticationRequest;
 import com.cas.sur.tout.urgents.dto.auth.AuthenticationResponse;
 import com.cas.sur.tout.urgents.dto.auth.UserInfo;
 import com.cas.sur.tout.urgents.service.auth.ApplicationUserDetails;
+import com.cas.sur.tout.urgents.service.auth.RefreshTokenService;
 import com.cas.sur.tout.urgents.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,10 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -29,10 +27,15 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
+    private RefreshTokenService refreshTokenService;
+
+    @Autowired
     JwtUtil jwtUtils;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> authentication(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<?> authentication(
+            @RequestBody AuthenticationRequest request,
+            @RequestHeader(name = "X-App-Type", defaultValue = "web") String appType) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -41,8 +44,13 @@ public class AuthController {
                     )
             );
             final ApplicationUserDetails userDetails = (ApplicationUserDetails) authentication.getPrincipal();
+            String refreshToken = null;
 
+            // Générer le refresh token seulement si le header vaut "mobile"
             final String jwt = jwtUtils.generateToken(userDetails);
+            if ("mobile".equalsIgnoreCase(appType)) {
+                refreshToken = refreshTokenService.createRefreshToken(userDetails.getId()).getToken();
+            }
 
             UserInfo userInfo = UserInfo.builder()
                     .id(userDetails.getId())
@@ -53,6 +61,7 @@ public class AuthController {
 
             return ResponseEntity.ok(AuthenticationResponse.builder()
                     .accessToken(jwt)
+                    .refreshToken(refreshToken)
                     .userInfo(userInfo)
                     .build()
             );

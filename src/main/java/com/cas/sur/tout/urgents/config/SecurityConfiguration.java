@@ -78,7 +78,8 @@ public class SecurityConfiguration {
                                 AUTH_ENDPOINT + "/**",
                                 IMAGE_ENDPOINT + "/**",
                                 CLIENT_ENDPOINT + "/add",
-                                GESTIONNAIRE_ENDPOINT + "/add"
+                                GESTIONNAIRE_ENDPOINT + "/add",
+                                EXISTING_USER_ENDPOINT + "/exists"
                                 ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
