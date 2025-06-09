@@ -34,7 +34,7 @@ jwt:
   expiration : 3600000
 
 server:
-  hostname: 192.168.100.27
+  hostname: ${ hostname }
   port : 8081
   address: 0.0.0.0
   error:
