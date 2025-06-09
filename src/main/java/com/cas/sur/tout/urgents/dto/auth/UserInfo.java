@@ -14,4 +14,5 @@ public class UserInfo {
     private String username;
     private String emailOrTel;
     private Collection<? extends GrantedAuthority> role;
+    private boolean active;
 }

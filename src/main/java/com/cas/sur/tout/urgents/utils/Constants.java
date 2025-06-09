@@ -15,4 +15,5 @@ public interface Constants {
     String AUTH_ENDPOINT = ROOT_APP + "/auth";
     String IMAGE_ENDPOINT = ROOT_APP + "/images";
     String EXISTING_USER_ENDPOINT = ROOT_APP + "/users";
+    String OTP_ENDPOINT = ROOT_APP + "/otp";
 }

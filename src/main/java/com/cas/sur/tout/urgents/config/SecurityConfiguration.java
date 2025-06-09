@@ -22,7 +22,6 @@ import java.util.List;
 import static com.cas.sur.tout.urgents.utils.Constants.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -32,7 +31,10 @@ public class SecurityConfiguration {
             DEGREE_ENDPOINT + "/add",
             DEGREE_ENDPOINT + "/find/**",
             DEGREE_ENDPOINT + "/isActive/**",
-            GESTIONNAIRE_ENDPOINT + "/**",
+            GESTIONNAIRE_ENDPOINT + "/all",
+            GESTIONNAIRE_ENDPOINT + "/find/**",
+            GESTIONNAIRE_ENDPOINT + "/isActive/**",
+            GESTIONNAIRE_ENDPOINT + "/update",
             ORGANISME_EXTERIEUR_ENDPOINT + "/**",
             ROLE_ENDPOINT + "/**",
             TYPE_CAS_ENDPOINT + "/add",
@@ -42,8 +44,10 @@ public class SecurityConfiguration {
     };
     private static final String[] USER_LIST_URL = {
             INCIDENT_ENDPOINT + "/**",
-            CLIENT_ENDPOINT + "/**",
-            DEGREE_ENDPOINT + "/all",
+            CLIENT_ENDPOINT + "/all",
+            CLIENT_ENDPOINT + "/find/**",
+            CLIENT_ENDPOINT + "/isActive/**",
+            DEGREE_ENDPOINT + "/update",
             ZONE_ENDPOINT + "/**",
             TYPE_CAS_ENDPOINT + "/all",
     };
@@ -79,7 +83,8 @@ public class SecurityConfiguration {
                                 IMAGE_ENDPOINT + "/**",
                                 CLIENT_ENDPOINT + "/add",
                                 GESTIONNAIRE_ENDPOINT + "/add",
-                                EXISTING_USER_ENDPOINT + "/exists"
+                                EXISTING_USER_ENDPOINT + "/exists",
+                                OTP_ENDPOINT + "/**"
                                 ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()

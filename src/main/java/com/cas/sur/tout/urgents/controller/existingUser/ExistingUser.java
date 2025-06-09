@@ -3,6 +3,7 @@ package com.cas.sur.tout.urgents.controller.existingUser;
 import com.cas.sur.tout.urgents.model.Gestionnaire;
 import com.cas.sur.tout.urgents.repository.GestionnaireRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class ExistingUser {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/exists")
+    @GetMapping(value = "/exists", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Boolean> userExists() {
         List<Gestionnaire> activeGestionnaire = userRepository.findUserByActive(true);
         boolean exists = !activeGestionnaire.isEmpty();

@@ -41,6 +41,7 @@ public class ApplicationUserDetailsService implements UserDetailsService {
                     user.getId(),
                     user.getUsername(),
                     user.getEmail(),
+                    user.isActive(),
                     user.getPassword(),
                     user.getRoles().stream()
                             .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
@@ -56,6 +57,7 @@ public class ApplicationUserDetailsService implements UserDetailsService {
                     client.getId(),
                     client.getUsername(),
                     client.getTel(),
+                    client.isActive(),
                     client.getPassword(),
                     client.getRoles().stream()
                             .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))

@@ -31,7 +31,18 @@ app:
 # JWT Configuration
 jwt:
   secret : 9e7a4c70243ea9e51d81c59991dee74e4096412e2645508373735ce6c36d3ba36ebd75c722ffa6f447e33289c7dadd2581a3aab375bca2dc2f7eb34e761f34a71c8fb4a40dd6efb1d353ff890b39ee683d5a479af70b0b5d0b4ffaf5d06f3f3b150b45c9e90b9b8424f65b39f2fd51037ce141e3abaab31e04f87f6510a7b8dd41a337f974d723c002781486d074f1428e102c10b3a33e6a1a2d892dec00156ef837e8772fbcc2c0b7d288c674a55ad7deec22bd7abbad50380a9b5e9d1c45d33cedd93ad1510cacd33+3068a4833cd80290b95b225e5b6acd821+b48e7e0aed5e45f2e899fc4edd6308e21c8f014e507bd943a90ed544a3b526eda2cd5aeac1e4+/
-  expiration : 3600000
+  expiration : 36000000
+
+# Pour l’API publique
+sms:
+  api:
+    url : https://textbelt.com/text
+    key : textbelt
+# Pour verifier le numéro de l'utilisateur via otp
+twilio:
+  account-sid: ${ sid }
+  auth-token: ${ token }
+  phone-number: ${ number }
 
 server:
   hostname: 192.168.100.27

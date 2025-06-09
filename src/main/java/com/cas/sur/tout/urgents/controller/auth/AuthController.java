@@ -57,6 +57,7 @@ public class AuthController {
                     .username(userDetails.getUsername())
                     .emailOrTel(userDetails.getEmailOrtTel())
                     .role(userDetails.getAuthorities())
+                    .active(userDetails.isActive())
                     .build();
 
             return ResponseEntity.ok(AuthenticationResponse.builder()
