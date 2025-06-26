@@ -1,5 +1,6 @@
 package com.cas.sur.tout.urgents.controller.imageUpload;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,13 +23,11 @@ import static com.cas.sur.tout.urgents.utils.Constants.IMAGE_ENDPOINT;
 @RequestMapping(IMAGE_ENDPOINT)
 public class ImageUploadController {
 
-    @Value("http://${server.hostname}:${server.port}")
-    private String baseUrl;
-
     List<String> allowedExtensions = List.of("png", "jpg", "jpeg", "gif", "mp4", "mov", "avi", "wmv", "mkv", "webm", "mp3", "wav", "ogg", "aac", "flac");
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
         final String uploadDir = "uploads/";
         final String originalFilename = file.getOriginalFilename();
         final String extension = originalFilename != null ?
@@ -54,7 +53,7 @@ public class ImageUploadController {
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
         // Construction de l'URL finale
-        final String imageUrl = this.baseUrl + IMAGE_ENDPOINT + "/" + fileName;
+        final String imageUrl = baseUrl + IMAGE_ENDPOINT + "/" + fileName;
         return ResponseEntity.ok(imageUrl);
     }
 
