@@ -17,28 +17,43 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-
 import java.util.List;
 
 import static com.cas.sur.tout.urgents.utils.Constants.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
-    private static final String[] WHITE_LIST_URL = {
-            INCIDENT_ENDPOINT + "/**",
-            CLIENT_ENDPOINT + "/**",
-            DEGREE_ENDPOINT + "/**",
-            GESTIONNAIRE_ENDPOINT + "/**",
-            ORGANISME_EXTERIEUR_ENDPOINT + "/**",
-            ZONE_ENDPOINT + "/**",
+    private static final String[] ADMIN_LIST_URL = {
+            DEGREE_ENDPOINT + "/add",
+            DEGREE_ENDPOINT + "/find/**",
+            DEGREE_ENDPOINT + "/isActive/**",
+            GESTIONNAIRE_ENDPOINT + "/all",
+            GESTIONNAIRE_ENDPOINT + "/isActive/**",
+            GESTIONNAIRE_ENDPOINT + "/update",
+            ORGANISME_EXTERIEUR_ENDPOINT + "/add",
+            ORGANISME_EXTERIEUR_ENDPOINT + "/find/**",
+            ORGANISME_EXTERIEUR_ENDPOINT + "isActive/**",
             ROLE_ENDPOINT + "/**",
-            TYPE_CAS_ENDPOINT + "/**",
+            TYPE_CAS_ENDPOINT + "/find/**",
+            TYPE_CAS_ENDPOINT + "/isActive/**",
             USER_ENDPOINT + "/**"
+    };
+    private static final String[] USER_LIST_URL = {
+            INCIDENT_ENDPOINT + "/**",
+            GESTIONNAIRE_ENDPOINT + "/find/**",
+            ORGANISME_EXTERIEUR_ENDPOINT + "/all",
+            ORGANISME_EXTERIEUR_ENDPOINT + "/orgByName/**",
+            CLIENT_ENDPOINT + "/all",
+            CLIENT_ENDPOINT + "/find/**",
+            CLIENT_ENDPOINT + "/isActive/**",
+            DEGREE_ENDPOINT + "/update",
+            ZONE_ENDPOINT + "/**",
+            TYPE_CAS_ENDPOINT + "/all",
+            TYPE_CAS_ENDPOINT + "/add",
     };
     @Autowired
     private ApplicationUserDetailsService userDetailsService;
@@ -65,11 +80,15 @@ public class SecurityConfiguration {
                         exceptionHandling.authenticationEntryPoint(unauthorizedHandler)
                 )
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(ADMIN_LIST_URL).hasRole("ADMIN")
+                        .requestMatchers(USER_LIST_URL).hasAnyRole("USER", "ADMIN", "RESPONSABLE")
                         .requestMatchers(
                                 AUTH_ENDPOINT + "/**",
                                 IMAGE_ENDPOINT + "/**",
                                 CLIENT_ENDPOINT + "/add",
-                                GESTIONNAIRE_ENDPOINT + "/add"
+                                GESTIONNAIRE_ENDPOINT + "/add",
+                                EXISTING_USER_ENDPOINT + "/exists",
+                                OTP_ENDPOINT + "/**"
                                 ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -28,20 +27,17 @@ public class IncidentServiceImpl implements IncidentService {
 
     private final IncidentRepo incidentRepo;
     private final ClientRepo clientRepo;
-    private final ZoneRepo placeRepo;
     private final DegreeRepo degreeRepo;
     private final TypeCasRepo typeCasRepo;
     private final GestionnaireRepo gestionnaireRepo;
 
     @Autowired
     public IncidentServiceImpl(
-           IncidentRepo incidentRepo, ClientRepo clientRepo,
-           ZoneRepo placeRepo, DegreeRepo degreeRepo,
+           IncidentRepo incidentRepo, ClientRepo clientRepo, DegreeRepo degreeRepo,
            TypeCasRepo typeCasRepo, GestionnaireRepo gestionnaireRepo)
     {
         this.incidentRepo = incidentRepo;
         this.clientRepo = clientRepo;
-        this.placeRepo = placeRepo;
         this.degreeRepo = degreeRepo;
         this.typeCasRepo = typeCasRepo;
         this.gestionnaireRepo = gestionnaireRepo;
@@ -67,15 +63,6 @@ public class IncidentServiceImpl implements IncidentService {
             throw new EntityNotFoundException(
                     "Aucun client avec l'id " + dto.getClient().getId(),
                     ErrorCodes.CLIENT_NOT_FOUND
-            );
-        }
-
-        Optional<Zone> place = placeRepo.findById(dto.getZone().getId());
-        if (place.isEmpty()) {
-            log.warn("La zone avec l'id {} est introuvable dans la BDD", dto.getZone().getId());
-            throw new EntityNotFoundException(
-                    "Aucune zone avec l'id " + dto.getZone().getId(),
-                    ErrorCodes.PLACE_NOT_FOUND
             );
         }
 

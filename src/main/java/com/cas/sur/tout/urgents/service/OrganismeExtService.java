@@ -11,6 +11,8 @@ public interface OrganismeExtService {
 
     OrganismeExtDto findById(Integer id);
 
+    OrganismeExtDto findByName(String name);
+
     List<OrganismeExtDto> findAll();
 
     void deleteById(Integer id);

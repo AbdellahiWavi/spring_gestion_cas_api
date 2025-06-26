@@ -53,7 +53,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .claims(extraClaims)
                 .claim("id", userDetails.getId())
-                .subject(userDetails.getUsername())
+                .subject(userDetails.getEmailOrtTel())
                 .claim("admin", userDetails.getAuthorities().stream()
                         .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN")))
                 .issuedAt(new Date(System.currentTimeMillis()))

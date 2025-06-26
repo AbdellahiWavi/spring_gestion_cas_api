@@ -1,11 +1,9 @@
 package com.cas.sur.tout.urgents.service.impl;
 
-import com.cas.sur.tout.urgents.dto.GestionnaireDto;
 import com.cas.sur.tout.urgents.dto.OrganismeExtDto;
 import com.cas.sur.tout.urgents.exception.EntityNotFoundException;
 import com.cas.sur.tout.urgents.exception.ErrorCodes;
 import com.cas.sur.tout.urgents.exception.InvalidEntityException;
-import com.cas.sur.tout.urgents.model.Gestionnaire;
 import com.cas.sur.tout.urgents.model.OrganismeExt;
 import com.cas.sur.tout.urgents.repository.OrganismeExtRepo;
 import com.cas.sur.tout.urgents.service.OrganismeExtService;
@@ -58,6 +56,19 @@ public class OrganismeExtServiceImpl implements OrganismeExtService {
             return null;
         }
         return organismeExtRepo.findById(id)
+                .map(OrganismeExtDto::fromEntity)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "l'organisme externe n'existe pas", ErrorCodes.ORGANISME_NOT_FOUND
+                ));
+    }
+
+    @Override
+    public OrganismeExtDto findByName(String name) {
+        if (name == null) {
+            log.error("le nom de l'organisme est nulle");
+            return null;
+        }
+        return organismeExtRepo.findByName(name)
                 .map(OrganismeExtDto::fromEntity)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "l'organisme externe n'existe pas", ErrorCodes.ORGANISME_NOT_FOUND

@@ -30,11 +30,22 @@ app:
 
 # JWT Configuration
 jwt:
-  secret : ${SECRETE_KEY}
-  expiration : 3600000
+  secret : ${ SECRET_KEY }
+  expiration : 36000000
+
+# Pour l’API publique
+sms:
+  api:
+    url : https://textbelt.com/text
+    key : textbelt
+# Pour verifier le numéro de l'utilisateur via otp
+twilio:
+  account-sid: ${ TWILIO_ACCOUNT_SID }
+  auth-token: ${ TWILIO_AUTH_TOKEN }
+  phone-number: ${ TWILIO_PHONE_NUMBER }
 
 server:
-  hostname: ${ hostname }
+  hostname: ${ SERVER_HOST_NAME }
   port : 8081
   address: 0.0.0.0
   error:
