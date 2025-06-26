@@ -30,6 +30,7 @@ public class Incident implements Serializable {
             @AttributeOverride(name = "longitude", column = @Column(name = "user_longitude"))
     })
     private UserLocation userLocation;
+    private String county;
 
     private String url;
     private boolean active;
@@ -49,11 +50,6 @@ public class Incident implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-
-    @ManyToOne
-    @JoinColumn(name = "id_zone", referencedColumnName = "id")
-    @JsonBackReference
-    private Zone zone;
 
     @ManyToOne
     @JoinColumn(name = "id_degree", referencedColumnName = "id")

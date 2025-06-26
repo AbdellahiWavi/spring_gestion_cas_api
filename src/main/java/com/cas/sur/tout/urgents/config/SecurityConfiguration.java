@@ -32,24 +32,28 @@ public class SecurityConfiguration {
             DEGREE_ENDPOINT + "/find/**",
             DEGREE_ENDPOINT + "/isActive/**",
             GESTIONNAIRE_ENDPOINT + "/all",
-            GESTIONNAIRE_ENDPOINT + "/find/**",
             GESTIONNAIRE_ENDPOINT + "/isActive/**",
             GESTIONNAIRE_ENDPOINT + "/update",
-            ORGANISME_EXTERIEUR_ENDPOINT + "/**",
+            ORGANISME_EXTERIEUR_ENDPOINT + "/add",
+            ORGANISME_EXTERIEUR_ENDPOINT + "/find/**",
+            ORGANISME_EXTERIEUR_ENDPOINT + "isActive/**",
             ROLE_ENDPOINT + "/**",
-            TYPE_CAS_ENDPOINT + "/add",
             TYPE_CAS_ENDPOINT + "/find/**",
             TYPE_CAS_ENDPOINT + "/isActive/**",
             USER_ENDPOINT + "/**"
     };
     private static final String[] USER_LIST_URL = {
             INCIDENT_ENDPOINT + "/**",
+            GESTIONNAIRE_ENDPOINT + "/find/**",
+            ORGANISME_EXTERIEUR_ENDPOINT + "/all",
+            ORGANISME_EXTERIEUR_ENDPOINT + "/orgByName/**",
             CLIENT_ENDPOINT + "/all",
             CLIENT_ENDPOINT + "/find/**",
             CLIENT_ENDPOINT + "/isActive/**",
             DEGREE_ENDPOINT + "/update",
             ZONE_ENDPOINT + "/**",
             TYPE_CAS_ENDPOINT + "/all",
+            TYPE_CAS_ENDPOINT + "/add",
     };
     @Autowired
     private ApplicationUserDetailsService userDetailsService;

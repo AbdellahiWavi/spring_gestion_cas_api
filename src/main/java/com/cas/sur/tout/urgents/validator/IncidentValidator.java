@@ -1,7 +1,6 @@
 package com.cas.sur.tout.urgents.validator;
 
 import com.cas.sur.tout.urgents.dto.IncidentDto;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +11,13 @@ public class IncidentValidator {
         List<String> errors = new ArrayList<>();
 
         if (incidentDto == null) {
-            errors.add("La description n'est pas valide!");
-        } else {
-
-            if (!StringUtils.hasLength(incidentDto.getDecrireAction())) {
-                errors.add("La description n'est pas valide!");
-            }
-        }
+            errors.add("L'incident n'a pas complet!");
+        }// else {
+//
+//            if (!StringUtils.hasLength(incidentDto.getDecrireAction())) {
+//                errors.add("La description n'est pas valide!");
+//            }
+//        }
         return errors;
     }
 }

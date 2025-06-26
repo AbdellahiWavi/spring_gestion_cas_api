@@ -23,6 +23,7 @@ public class IncidentDto {
     private String decrireAction;
     private UserLocation userLocation;
     private String url;
+    private String county;
     private boolean active;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, timezone = "Africa/Nouakchott", pattern = "yyyy-MM-dd HH:mm:ss")
@@ -36,9 +37,6 @@ public class IncidentDto {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-
-    @Getter
-    private ZoneDto zone;
 
     @Getter
     private DegreeDto degree;
@@ -64,11 +62,11 @@ public class IncidentDto {
                 .active(incident.isActive())
                 .decrireAction(incident.getDecrireAction())
                 .userLocation(incident.getUserLocation())
+                .county(incident.getCounty())
                 .dateCreation(incident.getDateCreation())
                 .dateTraitement(incident.getDateTraitement())
                 .dernierChEta(incident.getDernierChEta())
                 .status(incident.getStatus())
-                .zone(ZoneDto.fromEntity(incident.getZone()))
                 .degree(DegreeDto.fromEntity(incident.getDegree()))
                 .typeCas(TypeCasDto.fromEntity(incident.getTypeCas()))
                 .client(ClientDto.fromEntity(incident.getClient()))
@@ -88,11 +86,11 @@ public class IncidentDto {
                 .active(incident.isActive())
                 .decrireAction(incident.getDecrireAction())
                 .userLocation(incident.getUserLocation())
+                .county(incident.getCounty())
                 .dateCreation(incident.getDateCreation())
                 .dateTraitement(incident.getDateTraitement())
                 .dernierChEta(incident.getDernierChEta())
                 .status(incident.getStatus())
-                .zone(ZoneDto.toEntity(incident.getZone()))
                 .degree(DegreeDto.toEntity(incident.getDegree()))
                 .typeCas(TypeCasDto.toEntity(incident.getTypeCas()))
                 .client(ClientDto.toEntity(incident.getClient()))

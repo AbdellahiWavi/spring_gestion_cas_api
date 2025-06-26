@@ -19,6 +19,9 @@ public interface OrganismeExtApi {
     @GetMapping("/find/{id}")
     OrganismeExtDto findById(@PathVariable Integer id);
 
+    @GetMapping("/orgByName/{name}")
+    OrganismeExtDto findByName(@PathVariable String name);
+
     @PutMapping("/isActive/{id}")
     void disableOrgById(@PathVariable Integer id);
 

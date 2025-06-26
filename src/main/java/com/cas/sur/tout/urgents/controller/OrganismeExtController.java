@@ -43,6 +43,11 @@ public class OrganismeExtController implements OrganismeExtApi {
     }
 
     @Override
+    public OrganismeExtDto findByName(String name) {
+        return organismeExtService.findByName(name);
+    }
+
+    @Override
     public void disableOrgById(Integer id) {
         organismeExtService.disableOrganismeById(id);
     }

@@ -52,11 +52,11 @@ public class GestionnaireServiceImpl implements GestionnaireService {
         dto.setActive(true);
 
         if (dto.getRoles() == null || dto.getRoles().isEmpty()) {
-            Optional<RoleDto> roleprofileDto = Optional.ofNullable(RoleDto.fromEntity(roleRepo.findByRoleProfile("ADMIN", "TOUTES")));
+            Optional<RoleDto> roleProfileDto = Optional.ofNullable(RoleDto.fromEntity(roleRepo.findByRoleProfile("ADMIN", "ADMIN")));
 
-            dto.setRoles(roleprofileDto.map(List::of)
+            dto.setRoles(roleProfileDto.map(List::of)
                     .orElseGet(() -> List.of(RoleDto.fromEntity(
-                                    roleRepo.save(Role.builder().role("ADMIN").profile("TOUTES").build())
+                                    roleRepo.save(Role.builder().role("ADMIN").profile("ADMIN").build())
                             ))
                     )
             );
