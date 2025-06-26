@@ -4,9 +4,9 @@ spring:
 
   # Database configuration
   datasource:
-    url : jdbc:mariadb://localhost:3306/gestion_cas?createDatabaseIfNotExist=true
-    username : root
-    password : root
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
@@ -30,7 +30,7 @@ app:
 
 # JWT Configuration
 jwt:
-  secret : ${ SECRET_KEY }
+  secret : ${SECRET_KEY}
   expiration : 36000000
 
 # Pour l’API publique
@@ -40,13 +40,13 @@ sms:
     key : textbelt
 # Pour verifier le numéro de l'utilisateur via otp
 twilio:
-  account-sid: ${ TWILIO_ACCOUNT_SID }
-  auth-token: ${ TWILIO_AUTH_TOKEN }
-  phone-number: ${ TWILIO_PHONE_NUMBER }
+  account-sid: ${TWILIO_ACCOUNT_SID}
+  auth-token: ${TWILIO_AUTH_TOKEN}
+  phone-number: ${TWILIO_PHONE_NUMBER}
 
 server:
-  hostname: ${ SERVER_HOST_NAME }
-  port : 8081
+  hostname: ${SERVER_HOST_NAME}
+  port : ${PORT:8080}
   address: 0.0.0.0
   error:
     include-message: always
