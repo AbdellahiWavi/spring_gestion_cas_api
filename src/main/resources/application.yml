@@ -15,9 +15,9 @@ spring:
         hibernate:
           dialect : org.hibernate.spatial.dialect.mysql.MySQL56SpatialDialect # utile pour la configuration de geometry
 # l'image par défaut
-app:
-  image-path-prefix: http://${server.hostname}:${server.port}/gestiondecas/images/
-  default-image-name: jpeg.jpg
+#app:
+#  image-path-prefix: http://${server.hostname}:${server.port}/gestiondecas/images/
+#  default-image-name: jpeg.jpg
 
  # Choisir une enumeration pardéfaut
   jackson:
@@ -45,7 +45,6 @@ twilio:
   phone-number: ${TWILIO_PHONE_NUMBER}
 
 server:
-  hostname: ${SERVER_HOST_NAME}
   port : ${PORT:8080}
   address: 0.0.0.0
   error:

@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
 public class OrganismeExtServiceImpl implements OrganismeExtService {
 
     private final OrganismeExtRepo organismeExtRepo;
-    @Value("${app.image-path-prefix}${app.default-image-name}")
-    private String defaultImageUrl;
+//    @Value("${app.image-path-prefix}${app.default-image-name}")
+//    private String defaultImageUrl;
 
     @Autowired
     public OrganismeExtServiceImpl(OrganismeExtRepo organismeExtRepo) {
@@ -39,9 +39,9 @@ public class OrganismeExtServiceImpl implements OrganismeExtService {
             throw new InvalidEntityException("l'organisme n'est pas valide", ErrorCodes.ORGANISME_NOT_VALID, errors);
         }
         dto.setActive(true);
-        if (dto.getImage() == null || dto.getImage().isEmpty()) {
-            dto.setImage(defaultImageUrl);
-        }
+//        if (dto.getImage() == null || dto.getImage().isEmpty()) {
+//            dto.setImage(defaultImageUrl);
+//        }
 
         return OrganismeExtDto.fromEntity(
                 organismeExtRepo.save(
