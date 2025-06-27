@@ -74,4 +74,4 @@ server:
   error:
     include-message: always
     include-binding-errors: always
-    include-stacktrace: on-trace-param
+    include-stacktrace: on_param
