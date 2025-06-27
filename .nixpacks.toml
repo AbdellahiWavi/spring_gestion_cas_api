@@ -1,6 +1,5 @@
 [phases.setup]
 nixPkgs = ["jdk21", "maven"]
 
-
 [variables]
-JAVA_VERSION = "21"
+NIXPACKS_JDK_VERSION = "21"
