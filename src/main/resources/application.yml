@@ -1,20 +1,43 @@
 spring:
+  profiles:
+    active: local
   application:
     decrireAction: urgents
 
-  # Database configuration
+---
+spring:
+  config:
+    activate:
+      on-profile: local
   datasource:
     url: jdbc:${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: update
 
+---
+spring:
+  config:
+    activate:
+      on-profile: railway
+  datasource:
+    url: jdbc:${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+---
+spring:
   jpa:
     hibernate:
       ddl-auto : update
-      properties:
-        hibernate:
-          dialect : org.hibernate.spatial.dialect.mysql.MySQL56SpatialDialect # utile pour la configuration de geometry
 # l'image par défaut
 #app:
 #  image-path-prefix: http://${server.hostname}:${server.port}/gestiondecas/images/
@@ -51,4 +74,4 @@ server:
   error:
     include-message: always
     include-binding-errors: always
-    include-stacktrace: always
+    include-stacktrace: on-trace-param
