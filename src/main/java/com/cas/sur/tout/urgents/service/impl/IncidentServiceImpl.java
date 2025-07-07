@@ -59,7 +59,7 @@ public class IncidentServiceImpl implements IncidentService {
         dto.setActive(true);
         Optional<Client> client = clientRepo.findById(dto.getClient().getId());
         if (client.isEmpty()) {
-            log.warn("Le client avec l'id {} est introuvable dans la BDD", dto.getClient().getId());
+            log.warn("Le client avec l'id {} est introuvable", dto.getClient().getId());
             throw new EntityNotFoundException(
                     "Aucun client avec l'id " + dto.getClient().getId(),
                     ErrorCodes.CLIENT_NOT_FOUND
@@ -109,13 +109,18 @@ public class IncidentServiceImpl implements IncidentService {
         );
         Status oldStatus = incident.getStatus();
 
-        // mise à jour des champs
-        incident.setStatus(dto.getStatus());
-        // ...
+        if (dto.getStatus() != null) {
+            // mise à jour des champs
+            incident.setStatus(dto.getStatus());
+            // ...
+        } else {
+            dto.setStatus(oldStatus);
+        }
 
         if (!Objects.equals(oldStatus, dto.getStatus()) && dto.getStatus() == Status.TRAITE) {
             incident.setDateTraitement(LocalDateTime.now());
         }
+        dto.setActive(true);
         return IncidentDto.fromEntity(
                 incidentRepo.save(IncidentDto.toEntity(dto))
         );
